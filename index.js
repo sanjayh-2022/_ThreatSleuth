@@ -20,16 +20,25 @@ app.post("/detect", (req, res) => {
         // Run Python script as a child process
         const pythonProcess = spawn('python', ['C:/Users/Admin/Desktop/urldetectionml/app.py', url]);
 
+        let result = '';
         // Handle stdout from the Python process
         pythonProcess.stdout.on('data', (data) => {
-            console.log(`stdout: ${data}`);
-            res.send(data); // Send data back to client
+            result += data.toString();
         });
 
         // Handle stderr from the Python process
         pythonProcess.stderr.on('data', (data) => {
             console.error(`stderr: ${data}`);
             res.status(500).send("Error occurred while running Python script");
+        });
+
+        // When the Python process exits
+        pythonProcess.on('close', (code) => {
+            if (code === 0) {
+                res.send(result);
+            } else {
+                res.status(500).send("Python script exited with an error");
+            }
         });
     } catch (error) {
         console.error("Error:", error);
