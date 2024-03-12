@@ -7,14 +7,15 @@ import joblib
 import sys
 import json
 
-RF_spamURL_classifier = open('RF_spamURL_classifier.pkl','rb')
+RF_spamURL_classifier = open('RF_malaciousURL_classifier.pkl','rb')
 model = joblib.load(RF_spamURL_classifier)
 
 def process_input(text):
     df={'url':[text]}
-    data=pd.DataFrame(df,columns=['url','url_len','http','tld','tld_len','hostname_len','@','?','-','=','.','#','%','+','$','!','*',',','//','digits','letters','abnormal_url','short_url','ip_address'])
+    data=pd.DataFrame(df,columns=['url','url_len','https','http','tld','tld_len','hostname_len','@','?','-','=','.','#','%','+','$','!','*',',','//','digits','letters','short_url','ip_address'])
     data['url_len'] = data['url'].apply(lambda x: len(str(x)))
-    data['http'] = data['url'].apply(lambda i : i.count('http'))
+    data['https'] = data['url'].apply(lambda i : i.count('https'))
+    data['http'] = (data['url'].replace('https', '', regex=True)).apply(lambda i : i.count('http'))
     data['tld'] = data['url'].apply(lambda i: get_tld(i,fail_silently=True))
     def tld_length(tld):
         try:
@@ -43,15 +44,6 @@ def process_input(text):
         return letters
     data['letters']= data['url'].apply(lambda i: letter_count(i))
 
-    def abnormal_url(url):
-        hostname = urlparse(url).hostname
-        hostname = str(hostname)
-        match = re.search(hostname, url)
-        if match:
-            return 1
-        else:
-            return 0
-    data['abnormal_url'] = data['url'].apply(lambda i: abnormal_url(i))
     def short_url(url):
         match = re.search(r'bit\.ly|goo\.gl|shorte\.st|go2l\.ink|x\.co|ow\.ly|t\.co|tinyurl|tr\.im|is\.gd|cli\.gs|'
                         r'yfrog\.com|migre\.me|ff\.im|tiny\.cc|url4\.eu|twit\.ac|su\.pr|twurl\.nl|snipurl\.com|'
