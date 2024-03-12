@@ -6,14 +6,18 @@ import re
 import joblib 
 import sys
 import json
+import requests
+from bs4 import BeautifulSoup
 
 RF_spamURL_classifier = open('RF_spamURL_classifier.pkl','rb')
 model = joblib.load(RF_spamURL_classifier)
 
 def process_input(text):
     df={'url':[text]}
-    data=pd.DataFrame(df,columns=['url','url_len','http','tld','tld_len','hostname_len','@','?','-','=','.','#','%','+','$','!','*',',','//','digits','letters','abnormal_url','short_url','ip_address'])
+    data=pd.DataFrame(df,columns=['url','url_len','https','http','tld','tld_len','hostname_len','@','?','-','=','.','#','%','+','$','!','*',',','//','digits','letters','abnormal_url','short_url','ip_address'])
     data['url_len'] = data['url'].apply(lambda x: len(str(x)))
+    data['https'] = data['url'].apply(lambda i : i.count('https'))
+    data['url'] = data['url'].replace('https', '', regex=True)
     data['http'] = data['url'].apply(lambda i : i.count('http'))
     data['tld'] = data['url'].apply(lambda i: get_tld(i,fail_silently=True))
     def tld_length(tld):
@@ -86,9 +90,27 @@ def process_input(text):
     return data
 
 def classify_url(url):
-    data=process_input(url)
-    pred=model.predict(data)
-    return pred
+    try:
+        rank=''
+        r = requests.get('https://website.informer.com/'+url)
+        soup = BeautifulSoup(r.content, 'html.parser')
+        a_rank = soup.find('div', attrs = {'id':'alexa_rank'})
+        r=a_rank.find('b')
+        for i in r:
+            txt = i.text.strip()
+            if txt:
+                rank=txt
+        rank=int(rank)
+        if rank<10000 and rank!=None:
+            return np.array([0])
+        else:
+            data=process_input(url)
+            pred=model.predict(data)
+            return pred
+    except:
+        data=process_input(url)
+        pred=model.predict(data)
+        return pred
 
 if __name__ == '__main__':
     url = sys.argv[1] if len(sys.argv) > 1 else ''
