@@ -1,0 +1,34 @@
+body{
+    font-family: monospace;
+    min-width: 300px;
+    min-height: 200px;
+    width: 350px;
+    height: 250px;
+    background-color: rgb(202, 202, 174);
+}
+.heading{
+    font-size: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 30em;
+    animation: type 2s steps(60, end) ; 
+}
+@keyframes type{ 
+    from { width: 0; } 
+  } 
+p{
+    opacity: 0;
+    padding: 15px;
+    font-size: 19px;
+}
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+.loading-paragraph{
+    margin-top: -15px;
+    font-size: 10px;
+}
+p{
+    animation: fadeIn 1s ease-out 0.5s forwards;
+}
