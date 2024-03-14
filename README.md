@@ -12,5 +12,5 @@
 <ol>7. Also install these python packages: "pandas, numpy, tld, joblib"</ol>
 <ol>8. run the "index.js" file go to Chrome click on manage extensions and turn on the developer mode</ol>
 <ol>9. Click on "load unpacked" and select the "extension" folder which is on your desktop's ThreatSleuth folder</ol>
-<ol>10. Your Chrome extension is ready. Go to any website and click on the extension</ol></list><br>
+<ol>10. Your Chrome extension is ready. Go to any website and click on the extension</ol></list>
 <h5>For detailed documentation <a href="https://github.com/sanjayh-2022/_ThreatSleuth/tree/main/backend">click here</a></h5>
