@@ -15,4 +15,4 @@
 <ol>10. Your Chrome extension is ready. Go to any website and click on the extension</ol></list>
 <h5>For detailed documentation <a href="https://github.com/sanjayh-2022/_ThreatSleuth/tree/main/backend">click here</a></h5>
 <br>
-<img src="./Screenshot (2504).png"><br><img src="./Screenshot (2502).png"><br><img src="./Screenshot (2503).png">
+<img src="./backend/Screenshot (2504).png"><br><img src="./backend/Screenshot (2502).png"><br><img src="./backend/Screenshot (2503).png">
