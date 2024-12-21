@@ -65,7 +65,7 @@ The website has a separate setup process. Refer to the [README](https://github.c
 
 Contributions are welcome! If you find any bugs or have suggestions for improvements, please open an issue or clone the repository and submit a pull request on GitHub.
 
-For detailed guidelines on how to contribute, please refer to the [CONTRIBUTING.md](https://github.com/Aswinr24/ThreatSleuth/blob/main/CONTRIBUTING.md) file  
+For detailed guidelines on how to contribute, please refer to the [CONTRIBUTING.md](/CONTRIBUTING.md) file  
 
 ## License
 
